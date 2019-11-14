@@ -16,16 +16,25 @@ architecture alu of alu is
 
 	begin
 	
+	-- Process é percorrido sempre que houver alterações em op, A ou B.
 	process(op, A, B)
 		begin
+			-- Optamos por utilizar o switch case pela praticidade, as operações realizadas
+			-- abaixo seguem o que foi demonstrado na especificação do trabalho.
 			case op is
 			  -- add
+			  -- A função "signed" é usada aqui e em outras operações abaixo. Ela permite
+			  -- que o sinal do número seja identificado.
 			  when "0000" => result <= std_logic_vector(signed(A) + signed(B)); 
 			  
 			  -- sub
 			  when "0001" => result <= std_logic_vector(signed(A) - signed(B));
 			  
 			  -- sll
+			  -- Usamos a função "shift_left" que realiza o deslocamento para a esquerda,
+			  -- "unsigned" que ignora o sinal e "to_integer" que identifica como inteiro.
+			  -- Essas mesmas funções e variações, como "shift_right", são usadas em outros
+			  -- casos abaixo.
 			  when "0010" => result <= std_logic_vector(shift_left(unsigned(A), to_integer(unsigned(B))));
 			  
 			  -- slt
